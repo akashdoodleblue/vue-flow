@@ -229,9 +229,12 @@ export default {
       try {
         let response = await this.$http.post("/user/register", this.signupForm);
         console.log(response);
+        
         let token = response.data.token;
+        
         if (token) {
-          localStorage.setItem("jwt", token);
+          localStorage.setItem("token", token);
+          localStorage.setItem("user",JSON.stringify(user))
           this.$router.push("home");
           console.log("Success", "Registration Was successful", "success");
         } else {
@@ -270,7 +273,7 @@ export default {
         let response = await this.$http.post("/user/login", this.loginForm);
         let token = response.data.token;
         let user = response.data.user;
-        localStorage.setItem("jwt", token);
+        localStorage.setItem("token", token);
         localStorage.setItem("user",JSON.stringify(user))
         if (token) {
           console.log("Success", "Login Successful", "Error");
@@ -279,6 +282,7 @@ export default {
       } catch (err) {
         console.log("Error", "Something Went Wrong", "error");
         console.log(err.response);
+        this.errors = []
         this.errors.push(err.response.data.error)
       }
     }

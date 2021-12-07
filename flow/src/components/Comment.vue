@@ -3,20 +3,20 @@
     <div class="card-body comment">
       <div class="main-comment">
         <div>
-          <img class="profile-img" :src="getImgUrl(comment.user.avatar)" />
+          <img class="profile-img" :src="require('../assets/uploads/profile.png')" />
         </div>
         <div>
           <div>{{ comment.user.name }}</div>
-          <p class="text">{{ comment.msg }}</p>
+          <p class="text">{{ comment.text }}</p>
         </div>
       </div>
       <div class="child-comment">
         <img class="profile-img" src="../assets/uploads/profile.png" />
-        <input type="text" class="form-control" placeholder="Add a comment" />
-        <button class="btn btn-primary btn-sm">comment</button>
+        <input type="text" class="form-control" placeholder="Add a comment" v-model="childComment"/>
+        <button class="btn btn-primary btn-sm" @click="addChildComment">comment</button>
       </div>
       <div class="reply-comment" :class="showComments ? 'show-replies' : ''">
-        <div class="box">
+        <div class="box" v-if="comment.child.length > 0">
           <span style="font-weight: 500">{{ comment.child[0].name }} : </span>
           <span class="ml-2">{{ comment.child[0].msg }}</span>
         </div>
@@ -47,7 +47,8 @@ export default {
   data(){
       return {
           showComments : false,
-          moreReplies : []
+          moreReplies : [],
+          childComment : ''
       }
   },
   computed:{
@@ -62,6 +63,10 @@ export default {
     screenClicked() {
       this.$router.push({ name: "Screen", params: { id: this.screenData.id } });
     },
+    addChildComment(){
+      this.$emit('addChildComment', {parentId : this.comment._id, text : this.childComment})
+      this.childComment = ''
+    }
   },
 };
 </script>

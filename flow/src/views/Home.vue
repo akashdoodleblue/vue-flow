@@ -38,7 +38,7 @@
             type="button"
             class="page-link"
             v-if="page != 1"
-            @click="page--"
+            @click="changePage(--page)"
           >
             Previous
           </button>
@@ -49,7 +49,7 @@
             class="page-link"
             v-for="pageNumber in pages.slice(page - 1, page + 5)"
             :key="pageNumber"
-            @click="page = pageNumber"
+            @click="changePage(pageNumber)"
           >
             {{ pageNumber }}
           </button>
@@ -57,7 +57,7 @@
         <li class="page-item">
           <button
             type="button"
-            @click="page++"
+            @click="changePage(++page)"
             v-if="page < pages.length"
             class="page-link"
           >
@@ -83,39 +83,48 @@ export default {
       allScreens : [],
       active_tab: 1,
       page: 1,
-      perPage: 12,
+      perPage: 6,
+      totalCount : 0,
       pages: [],
       category_tab: "Mobile",
+      sortBy : "New"
     };
   },
   methods: {
     activate(el) {
       if (el == 1) {
-        this.screens = this.screens.sort(
-          (a, b) => a.id - b.id
-        );
+        this.sortBy = 'New'
+        this.getScreensData()
       } else {
-        this.screens = this.screens.sort(
-          (a, b) => b.totalRating - a.totalRating
-        );
+       this.sortBy = 'Rating'
+        this.getScreensData()
       }
 
       this.active_tab = el;
     },
     setPages() {
-      let numberOfPages = Math.ceil(this.screens.length / this.perPage);
+    
+      //let numberOfPages = Math.ceil(this.screens.length / this.perPage);
+      let numberOfPages = Math.ceil(this.totalCount / this.perPage)
       for (let index = 1; index <= numberOfPages; index++) {
         this.pages.push(index);
       }
     },
     paginate(screens) {
+      console.log(this.page)
+      console.log(this.perPage)
       let page = this.page;
       let perPage = this.perPage;
       let from = page * perPage - perPage;
       let to = page * perPage;
       return screens.slice(from, to);
     },
-    getScreensData(){
+    changePage(pageNumber){
+      console.log(pageNumber)
+      this.page = pageNumber
+      this.getScreensData()
+    },
+     async getScreensData(){
       // try{
       //   let data = await getScreens()
       //   console.log(data)
@@ -125,29 +134,37 @@ export default {
       // }catch(e){
       //   console.log(e)
       // }
-       this.$http.get('/screen/get').then(res => {
-        console.log(res)
-        let data = res.data.map((e, index) => {
+      try{
+  //this.$http.get(`/screen/get?category=${this.category_tab}&page=${this.page}&limit=${this.perPage}&sortBy=${this.sortBy}`).then(res => {
+        //console.log(res)
+        let res = await this.$http.get(`/screen/get?category=${this.category_tab}&page=${this.page}&limit=${this.perPage}&sortBy=${this.sortBy}`)
+        let data = res.data.data.map((e, index) => {
         let picture64Bit = btoa(String.fromCharCode(...new Uint8Array(e.img.data.data)));
         e.img = 'data:image/jpg;base64,' + picture64Bit
          
         return e
         })
         this.allScreens = data
-        this.screens = data.filter(e => e.category == 'Mobile')
-      }).catch(err => {
+        this.totalCount = res.data.total
+        this.screens = data.filter(e => e.category == this.category_tab)
+      }catch(err){
         throw new Error(err)
-      })
+      }
+     
+         //this.setPages();
+      // }).catch(err => {
+      //   throw new Error(err)
+      // })
     }
   },
   computed: {
     displayedPosts() {
-      return this.paginate(this.screens);
+      return this.screens;
     },
   },
-  created() {
-    this.setPages();
-  },
+  // created() {
+  //   this.setPages();
+  // },
   watch: {
     posts() {
       this.setPages();
@@ -158,15 +175,19 @@ export default {
       return value.split(" ").splice(0, 20).join(" ") + "...";
     },
   },
-  mounted() {
-    this.getScreensData()
+  async mounted() {
+    await this.getScreensData()
+    this.setPages();
     this.$bus.$on("change_category", (message) => {
-      this.screens = this.allScreens.filter((e) => e.category == message);
+      this.page = 1
       this.category_tab = message;
-      this.perPage = message == "Mobile" ? 12 : 6;
+      this.perPage = message == "Mobile" ? 6 : 6;
+      this.getScreensData()
+      
     });
 
     this.$bus.$on("screen_upload", (data) => {
+      this.page = 1
         this.getScreensData()
     });
   },
@@ -176,6 +197,7 @@ export default {
 <style scoped>
 .main {
   background-color: #eaeaea;
+  height : 100%;
 }
 h1,
 h2 {

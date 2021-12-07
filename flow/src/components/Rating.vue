@@ -10,7 +10,7 @@
 <script>
 export default {
   name: 'Rating',
-  props: ['grade', 'maxStars', 'hasCounter'],
+  props: ['grade', 'maxStars', 'hasCounter', 'type'],
   data() {
     return {
       stars: this.grade
@@ -20,7 +20,11 @@ export default {
     rate(star) {
       if (typeof star === 'number' && star <= this.maxStars && star >= 0) {
         this.stars = this.stars === star ? star - 1 : star
+        
       }
+      console.log(star)
+      console.log(this.type)
+      this.$emit('starChanged', {star : star , type : this.type})
     }
   },
 }

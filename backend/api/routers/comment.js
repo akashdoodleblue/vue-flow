@@ -1,24 +1,9 @@
-const fs = require("fs");
+const express = require("express");
+const router = express.Router();
+const commentController = require("../controller/commentController");
 
-var commentModel = require('../model/Comment');
+router.post("/add", commentController.addCommnet);
+router.post("/child-add", commentController.addChildCommnet);
 
 
-
-exports.addComment = async (req, res) => {
-    try {
-   var body = req.body
-   commentModel.create(body,function(err,result){
-        if(err){
-            console.log(err);
-        }else{
-            //console.log(result);
-            console.log("Saved To database");
-            
-        }
-    })
-       } catch (err) {
-           console.log(err)
-         res.status(400).json({ err: err });
-       }
-};
-
+module.exports = router;

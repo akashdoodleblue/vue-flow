@@ -10,12 +10,18 @@ var screenSchema = new mongoose.Schema({
         contentType: String
     },
     category : String,
-    totalRating : {type :String, default : 0},
+    totalRating : {type :Number, default : 0},
+    outOfRating : {type :Number, default : 0},
+    numOfRating : {type :Number, default : 0},
     rating : {
         design : {type : Number, default : 0},
         easy : {type : Number, default : 0},
         visual : {type : Number, default : 0}
     },
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+      }],
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

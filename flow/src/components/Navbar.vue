@@ -290,7 +290,7 @@ export default {
     },
     logout() {
         //localStorage.removeItem('login')
-      localStorage.removeItem("jwt");
+      localStorage.removeItem("token");
       localStorage.removeItem("user");
       this.$router.push("/login");
     },
