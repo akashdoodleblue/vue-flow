@@ -9,15 +9,15 @@ exports.registerNewUser = async (req, res) => {
              message: "email already in use"
            });
          }
-         const user = new User({
+         const userData = new User({
            name: req.body.name,
            email: req.body.email,
            password: req.body.password,
            phoneno: req.body.phoneno
          });
-         let data = await user.save();
+         let user = await userData.save();
          const token = await user.generateAuthToken();
-         res.status(201).json({ data, token });
+         res.status(201).json({ user, token });
        } catch (err) {
          res.status(400).json({ err: err });
        }

@@ -59,13 +59,12 @@ exports.getScreen = async (req, res) => {
 
 exports.getScreenById = async (req, res) => {
   try {
-    const userRelated = await userModel.findById(req.user._id).populate({
-      path: 'rating.ratingId',
-      match: { screenId: req.params.id },
-      options: { limit: 1 }
-    })
-    .exec();
-    console.log("USERRRRRR",userRelated)
+    let userRelated = await userModel.findById(req.user._id)
+    userRelated.rating = userRelated.rating.filter(e => e.screenId == req.params.id)
+
+   let rating = await userRelated.populate('rating.ratingId')
+   rating = rating.rating[0] ? rating.rating[0].ratingId : {}
+    console.log("USERRRRRR",rating)
     const _id = req.params.id;
     const screen = await screenModel
       .findOne({ _id })
@@ -80,7 +79,7 @@ exports.getScreenById = async (req, res) => {
       return res.status(404).send();
     }
 
-    res.send(screen);
+    res.send({...screen._doc, userRating : rating});
   } catch (e) {
     console.log(e);
     res.status(500).send(e);

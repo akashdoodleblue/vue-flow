@@ -19,14 +19,27 @@ export default {
     },
     screenCategory:{
       type : String
-    }
+    },
+    allScreens : {type : Array}
+
+   },
+   computed : {
+     getMoreScreens(){
+       console.log(this.allScreens)
+        let index = this.allScreens.findIndex(e=> e._id == this.screenData._id)
+        this.allScreens.splice(index, 1 )
+        let array = this.allScreens.sort(() => Math.random() - Math.random()).slice(0, 4)
+        console.log(array)
+      //  all
+      return array
+     }
    },
    methods:{
        getImgUrl(pic) {
              return require('../assets/'+pic)
         },
         screenClicked(){
-          this.$router.push({name : 'Screen', params : {id : this.screenData._id}})
+          this.$router.push({name : 'Screen', params : {id : this.screenData._id, moreScreens : JSON.stringify(this.getMoreScreens)}})
         }
    }
 };

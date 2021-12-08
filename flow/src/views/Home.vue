@@ -25,7 +25,7 @@
       <template v-else>
       <ul class="grid-wrapper" :class="category_tab">
         <li v-for="screen in displayedPosts" :key="screen.id">
-          <Screen :screenData="screen" :screenCategory="category_tab" />
+          <Screen :screenData="screen" :allScreens="allScreens" :screenCategory="category_tab" />
         </li>
       </ul>
       </template>
@@ -83,7 +83,7 @@ export default {
       allScreens : [],
       active_tab: 1,
       page: 1,
-      perPage: 6,
+      perPage: 12,
       totalCount : 0,
       pages: [],
       category_tab: "Mobile",
@@ -125,6 +125,7 @@ export default {
       this.getScreensData()
     },
      async getScreensData(){
+       console.log("sssssssssssssss")
       // try{
       //   let data = await getScreens()
       //   console.log(data)
@@ -181,7 +182,7 @@ export default {
     this.$bus.$on("change_category", (message) => {
       this.page = 1
       this.category_tab = message;
-      this.perPage = message == "Mobile" ? 6 : 6;
+      this.perPage = message == "Mobile" ? 12 : 6;
       this.getScreensData()
       
     });

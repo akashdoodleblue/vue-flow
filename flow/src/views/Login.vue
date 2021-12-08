@@ -231,7 +231,7 @@ export default {
         console.log(response);
         
         let token = response.data.token;
-        
+        let user = response.data.user
         if (token) {
           localStorage.setItem("token", token);
           localStorage.setItem("user",JSON.stringify(user))
@@ -272,7 +272,7 @@ export default {
       try {
         let response = await this.$http.post("/user/login", this.loginForm);
         let token = response.data.token;
-        let user = response.data.user;
+        let user = response.data.user
         localStorage.setItem("token", token);
         localStorage.setItem("user",JSON.stringify(user))
         if (token) {

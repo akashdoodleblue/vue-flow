@@ -42,8 +42,16 @@
                   <div class="d-flex align-items-center">
                     <div class="rating-box mr-3">
                       <div class="circle">
-                        <span class="circle-number">{{screenDetails.rating.design}}</span>
-                        <svg height="40" width="40" :style="`stroke-dashoffset: ${251 - (screenDetails.rating.design) * 18 }`">
+                        <span class="circle-number">{{
+                          screenDetails.rating.design
+                        }}</span>
+                        <svg
+                          height="40"
+                          width="40"
+                          :style="`stroke-dashoffset: ${
+                            251 - screenDetails.rating.design * 18
+                          }`"
+                        >
                           <circle
                             cx="20"
                             cy="20"
@@ -55,8 +63,16 @@
                         </svg>
                       </div>
                       <div class="circle">
-                        <span class="circle-number">{{screenDetails.rating.easy}}</span>
-                        <svg height="40" width="40" :style="`stroke-dashoffset: ${251 - (screenDetails.rating.easy) * 18 }`">
+                        <span class="circle-number">{{
+                          screenDetails.rating.easy
+                        }}</span>
+                        <svg
+                          height="40"
+                          width="40"
+                          :style="`stroke-dashoffset: ${
+                            251 - screenDetails.rating.easy * 18
+                          }`"
+                        >
                           <circle
                             cx="20"
                             cy="20"
@@ -68,8 +84,16 @@
                         </svg>
                       </div>
                       <div class="circle">
-                        <span class="circle-number">{{screenDetails.rating.visual}}</span>
-                        <svg height="40" width="40" :style="`stroke-dashoffset: ${251 - (screenDetails.rating.visual) * 18 }`">
+                        <span class="circle-number">{{
+                          screenDetails.rating.visual
+                        }}</span>
+                        <svg
+                          height="40"
+                          width="40"
+                          :style="`stroke-dashoffset: ${
+                            251 - screenDetails.rating.visual * 18
+                          }`"
+                        >
                           <circle
                             cx="20"
                             cy="20"
@@ -83,33 +107,73 @@
                     </div>
                     <div class="total-rating">
                       <div class="t-circle mr-2">
-                        {{screenDetails.totalRating}}
+                        {{ screenDetails.totalRating }}
                       </div>
-                        <div class="text">{{screenDetails.numOfRating}} <br/> total rating</div>
+                      <div class="text">
+                        {{ screenDetails.numOfRating }} <br />
+                        total rating
+                      </div>
                     </div>
                   </div>
                   <div class="mt-3">
-                  <!-- <div class='circle'>
+                    <!-- <div class='circle'>
     <div class='arc'></div>
 </div> -->
-                  <div class="rating-item">
-                  <span class="design rating-name">Design Thinking</span>
-                  <Rating :grade="screenDetails.userRating ? screenDetails.userRating.design : 0" :maxStars="5" :hasCounter="true" :type="'design'" @starChanged="starChanged"/>
-                </div>
-                <div class="rating-item">
-                  <span class="easy rating-name">Easy of use</span>
-                  <Rating :grade="screenDetails.userRating ? screenDetails.userRating.easy : 0" :maxStars="5" :hasCounter="true" :type="'easy'" @starChanged="starChanged"/>
-                </div>
-                <div class="rating-item">
-                  <span class="visual rating-name">Aesthetics & Visual</span>
-                  <Rating :grade="screenDetails.userRating ? screenDetails.userRating.visual : 0" :maxStars="5" :hasCounter="true" :type="'visual'" @starChanged="starChanged"/>
-                </div>
-                  <div class="rating-btn-block float-right">
-                    <button :disabled="ratingDisabled" class="rating-btn" :class="ratingDisabled ? 'disabled' : ''" @click="addRating">
-                      <i class="fa fa-thumbs-up" aria-hidden="true"></i> Submit
-                      your Rating
-                    </button>
-                  </div>
+                    <div class="rating-item">
+                      <span class="design rating-name">Design Thinking</span>
+                      <Rating
+                        :grade="
+                          screenDetails.userRating
+                            ? screenDetails.userRating.design
+                            : 0
+                        "
+                        :maxStars="5"
+                        :hasCounter="true"
+                        :type="'design'"
+                        @starChanged="starChanged"
+                      />
+                    </div>
+                    <div class="rating-item">
+                      <span class="easy rating-name">Easy of use</span>
+                      <Rating
+                        :grade="
+                          screenDetails.userRating
+                            ? screenDetails.userRating.easy
+                            : 0
+                        "
+                        :maxStars="5"
+                        :hasCounter="true"
+                        :type="'easy'"
+                        @starChanged="starChanged"
+                      />
+                    </div>
+                    <div class="rating-item">
+                      <span class="visual rating-name"
+                        >Aesthetics & Visual</span
+                      >
+                      <Rating
+                        :grade="
+                          screenDetails.userRating
+                            ? screenDetails.userRating.visual
+                            : 0
+                        "
+                        :maxStars="5"
+                        :hasCounter="true"
+                        :type="'visual'"
+                        @starChanged="starChanged"
+                      />
+                    </div>
+                    <div class="rating-btn-block float-right">
+                      <button
+                        :disabled="ratingDisabled"
+                        class="rating-btn"
+                        :class="ratingDisabled ? 'disabled' : ''"
+                        @click="addRating"
+                      >
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                        Submit your Rating
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -123,7 +187,9 @@
                   placeholder="Add a comment"
                   v-model="commentText"
                 />
-                <button class="btn btn-primary" @click="addComment">comment</button>
+                <button class="btn btn-primary" @click="addComment">
+                  comment
+                </button>
               </div>
             </div>
             <div class="p-lg-2">
@@ -139,8 +205,23 @@
                 v-for="(comment, index) in screenDetails.comments"
                 :key="index"
               >
-                <Comment :comment="comment" @addChildComment="addChildComment"/>
+                <Comment
+                  :comment="comment"
+                  @addChildComment="addChildComment"
+                />
               </template>
+              <div class="p-2" v-if="getMoreScreens.length > 3">
+                <h5 class="font-weight-light mb-4">More <span class="blue-text">Screens</span></h5>
+                <div class="d-flex justify-content-around">
+                  <div
+                    class="more-img"
+                    v-for="screen in getMoreScreens"
+                    :key="screen"
+                  >
+                    <img :src="screen.img" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -153,29 +234,52 @@
 import screenData from "../assets/screens.json";
 import Rating from "../components/Rating.vue";
 import Comment from "../components/Comment.vue";
-import {getUser }from '../services/user'
+import { getUser } from "../services/user";
 export default {
   name: "ScreenDetails",
   components: {
     Rating,
     Comment,
   },
-  props: ["id"],
+  props: {
+    id: {
+      type: String,
+    },
+    moreScreens: {
+      type: String
+    },
+  },
   data() {
     return {
       screenDetails: null,
       loader: true,
-      commentText : "",
-      user :  getUser(),
-      ratingDisabled : true,
-      rating : {}
+      commentText: "",
+      user: getUser(),
+      ratingDisabled: true,
+      rating: {},
+      all: [],
     };
+  },
+  computed:{
+    getMoreScreens(){
+       try{
+         return JSON.parse(this.moreScreens)
+     }catch(e){
+       return []
+     }
+    }
   },
   beforeMount() {
     //this.screenDetails = screenData.find((e) => e._id == this.id);
   },
   mounted() {
-    console.log("WWWWWWWWWWWWWWWWWWWWWWWWWww");
+    console.log("WWWWWWWWWWWWWWWWWWWWWWWWWww", JSON.parse(this.moreScreens));
+    // this.all = this.moreScreens.map((e) => {
+    //   return JSON.parse(e);
+    // });
+    //console.log("SSSSSSSSSSSSSSSSSSSSC", this.moreScreens);
+    // this.all = this.moreScreens;
+     console.log(this.all);
     this.$http
       .get("/screen/get/" + this.id)
       .then((e) => {
@@ -194,70 +298,85 @@ export default {
         console.log(err);
       });
   },
-  methods : {
-    addComment(){
-      if(this.commentText){   
-      let body = {
-        text : this.commentText,
-        user : this.user._id,
-        screen : this.screenDetails._id
-      }
-      this.$http.post(`/comment/add`,body).then(res => {
-        console.log(res)
-        let data = res.data.data
-        let picture64Bit = btoa(String.fromCharCode(...new Uint8Array(data.img.data.data)));
-        data.img = 'data:image/jpg;base64,' + picture64Bit
-        this.screenDetails = data
-        this.commentText = ''
-      }).catch(err => {
-        console.log(err)
-      })
-      }
-    },
-    addChildComment(data){
-      if(data.text){
-         let body = {
-        text : data.text,
-        parentComment : data.parentId,
-        user : this.user.name,
-        screen : this.screenDetails._id
-      }
-     // console.log(body)
-      this.$http.post(`/comment/child-add`,body).then(res => {
-        console.log(res)
-        let data = res.data.data
-        let picture64Bit = btoa(String.fromCharCode(...new Uint8Array(data.img.data.data)));
-        data.img = 'data:image/jpg;base64,' + picture64Bit
-        this.screenDetails = data
-        this.commentText = ''
-      }).catch(err => {
-        console.log(err)
-      })
+  methods: {
+    addComment() {
+      if (this.commentText) {
+        let body = {
+          text: this.commentText,
+          user: this.user._id,
+          screen: this.screenDetails._id,
+        };
+        this.$http
+          .post(`/comment/add`, body)
+          .then((res) => {
+            console.log(res);
+            let data = res.data.data;
+            let picture64Bit = btoa(
+              String.fromCharCode(...new Uint8Array(data.img.data.data))
+            );
+            data.img = "data:image/jpg;base64," + picture64Bit;
+            this.screenDetails = data;
+            this.commentText = "";
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
-    starChanged(data){
-      this.rating[data.type] = data.star
-      this.ratingDisabled = false
+    addChildComment(data) {
+      if (data.text) {
+        let body = {
+          text: data.text,
+          parentComment: data.parentId,
+          user: this.user.name,
+          screen: this.screenDetails._id,
+        };
+        // console.log(body)
+        this.$http
+          .post(`/comment/child-add`, body)
+          .then((res) => {
+            console.log(res);
+            let data = res.data.data;
+            let picture64Bit = btoa(
+              String.fromCharCode(...new Uint8Array(data.img.data.data))
+            );
+            data.img = "data:image/jpg;base64," + picture64Bit;
+            this.screenDetails = data;
+            this.commentText = "";
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
-    addRating(){
-      console.log(this.rating)
+    starChanged(data) {
+      this.rating[data.type] = data.star;
+      this.ratingDisabled = false;
+    },
+    addRating() {
+      console.log(this.rating);
       let body = {
         ...this.rating,
-        user : this.user._id,
-        screen : this.screenDetails._id
-      }
-        this.$http.post(`/rating/add`,body).then(res => {
-        console.log(res)
-        let data = res.data.data
-        let picture64Bit = btoa(String.fromCharCode(...new Uint8Array(data.img.data.data)));
-        data.img = 'data:image/jpg;base64,' + picture64Bit
-        this.screenDetails = data
-        this.commentText = ''
-      }).catch(err => {
-        console.log(err)
-      })
-    }
-  }
+        user: this.user._id,
+        screen: this.screenDetails._id,
+      };
+      this.$http
+        .post(`/rating/add`, body)
+        .then((res) => {
+          console.log(res);
+          let data = res.data.data;
+          let picture64Bit = btoa(
+            String.fromCharCode(...new Uint8Array(data.img.data.data))
+          );
+          data.img = "data:image/jpg;base64," + picture64Bit;
+          this.screenDetails = data;
+          this.commentText = "";
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
 
@@ -373,20 +492,20 @@ export default {
   left: 1rem;
   z-index: 9;
 }
-.total-rating{
+.total-rating {
   display: flex;
   align-items: center;
 }
-.t-circle{
+.t-circle {
   color: white;
-  line-height:3rem;
+  line-height: 3rem;
   text-align: center;
   width: 3rem;
   height: 3rem;
   background-color: orange;
   border-radius: 50%;
 }
-.total-rating .text{
+.total-rating .text {
   color: grey;
   font-size: 0.85rem;
 }
@@ -395,6 +514,26 @@ svg {
   transform: rotate(-90deg);
   stroke-dasharray: 251; /* (2PI * 40px) */
   /* stroke-dashoffset: 251; */
+}
+
+.more-img {
+  width: 10rem;
+  height: 17rem;
+  display: flex;
+    align-items: center;
+    background-color: lightgray;
+    border-radius: 6px;
+}
+.more-img img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.blue-text{
+  border-bottom: #007bff 3px solid;
+  color : #007bff;
+  padding-bottom : 3px
 }
 
 @media (max-width: 400px) {
